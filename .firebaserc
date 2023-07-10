@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "yarnstore-3c33f": {
+      "hosting": {
+        "platzi-store": [
+          "yarnstore-3c33f"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "yarnstore-3c33f"
+  }
+}
