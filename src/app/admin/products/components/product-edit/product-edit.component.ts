@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { MyValidators } from './../../../../utils/validators';
@@ -12,11 +12,11 @@ import { ProductsService } from './../../../../core/services/products/products.s
 })
 export class ProductEditComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   id: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private productsService: ProductsService,
     private router: Router,
     private activatedRoute: ActivatedRoute

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
@@ -17,11 +17,11 @@ import { Observable } from 'rxjs';
 })
 export class ProductCreateComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   image$: Observable<any>;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private productsService: ProductsService,
     private router: Router,
     private storage: AngularFireStorage
