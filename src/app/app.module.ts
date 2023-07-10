@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -21,6 +20,7 @@ import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { providePerformance,getPerformance } from '@angular/fire/performance';
 import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 
 @NgModule({
@@ -36,7 +36,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     CoreModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    // provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
@@ -46,9 +46,16 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     providePerformance(() => getPerformance()),
     provideRemoteConfig(() => getRemoteConfig()),
     provideStorage(() => getStorage()),
+    provideFirebaseApp(
+      () => initializeApp(environment.firebase)), 
+      provideAuth(() => getAuth()), 
+      provideFirestore(() => getFirestore(),
+  ),
+    
+    
   ],
   providers: [
-  
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     ScreenTrackingService,UserTrackingService
   ],
   bootstrap: [AppComponent]
