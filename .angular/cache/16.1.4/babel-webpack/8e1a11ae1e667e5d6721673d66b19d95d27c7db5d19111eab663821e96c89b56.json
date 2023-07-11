@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class MyValidators {\n  static isPriceValid(control) {\n    const value = control.value;\n    console.log(value);\n    if (value > 10000) {\n      return {\n        price_invalid: true\n      };\n    }\n    return null;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
