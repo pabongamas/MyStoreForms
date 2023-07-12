@@ -30,18 +30,21 @@ export class BasicFormComponent implements OnInit{
   form:FormGroup;
 
   ngOnInit(): void {
-    this.nameField.valueChanges
-    .subscribe(value=>{
-      console.log(value);
-    })
-    this.form.valueChanges
-    .subscribe(value=>{
-      console.log(value);
-    });
+    // this.nameField.valueChanges
+    // .subscribe(value=>{
+    //   console.log(value);
+    // })
+    // this.form.valueChanges
+    // .subscribe(value=>{
+    //   console.log(value);
+    // });
   }
 
   getNameValue(){
     console.log(this.nameField.value);
+  }
+  getLastNameValue(){
+    console.log(this.lastField.value);
   }
 
   save(event){
@@ -54,15 +57,18 @@ export class BasicFormComponent implements OnInit{
 
   private buildForm(){
     this.form= this.formBuilder.group({
-      name:['',[Validators.required,Validators.maxLength(10)]],
-      email:[''],
+      fullname:this.formBuilder.group({
+        name:['',[Validators.required,Validators.maxLength(10),Validators.pattern(/^[a-zA-Z ]+$/)]],
+        last:['',[Validators.required,Validators.maxLength(10),Validators.pattern(/^[a-zA-Z ]+$/)]]
+      }),
+      email:['',[Validators.required,Validators.email]],
       phone:['',Validators.required],
       color:['#213b87'],
       date:[''],
-      number:['12'],
+      age:[18,[Validators.required,Validators.min(18),Validators.max(100)]],
       category:['category-3'],
       tag:[''],
-      agree:[false],
+      agree:[false,[Validators.requiredTrue]],
       gender:[''],
       zone:['']
     });
@@ -70,7 +76,10 @@ export class BasicFormComponent implements OnInit{
   }
 
   get nameField(){
-    return this.form.get('name');
+    return this.form.get('fullname').get('name');
+  }
+  get lastField(){
+    return this.form.get('fullname.last');
   }
   get emailField(){
     return this.form.get('email');
@@ -84,8 +93,8 @@ export class BasicFormComponent implements OnInit{
   get dateField(){
     return this.form.get('date');
   }
-  get numberField(){
-    return this.form.get('number');
+  get ageField(){
+    return this.form.get('age');
   }
   get categoryField(){
     return this.form.get('category');
@@ -109,6 +118,13 @@ export class BasicFormComponent implements OnInit{
 
   get isNameFieldInValid(){
     return this.nameField.touched && this.nameField.invalid;
+  }
+  get isLastFieldValid(){
+    return this.lastField.touched && this.lastField.valid;
+  }
+
+  get isLastFieldInValid(){
+    return this.lastField.touched && this.lastField.invalid;
   }
   
 }

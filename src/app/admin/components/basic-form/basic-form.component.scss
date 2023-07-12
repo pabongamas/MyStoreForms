@@ -1,15 +1,31 @@
-input{
-    &.is-valid{
-        border:2px solid green;
-    }
-    &.is-invalid{
-        border:2px solid red;
-    }
-}
+// input{
+//     &.is-valid{
+//         border:2px solid green;
+//     }
+//     &.is-invalid{
+//         border:2px solid red;
+//     }
+// }
 .messages{
     opacity: 0;
     transition: all .5s ease-in;
     &.active{
         opacity: 1;
     }
+}
+form{
+    mat-form-field{
+        width: 100%;
+    }
+}
+.container-form{
+    padding: 20px;
+}
+.flexColumnCenter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container-formGroup .flexColumnCenter{
+    padding-bottom: 10px;
 }

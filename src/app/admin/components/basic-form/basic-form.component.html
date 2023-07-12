@@ -1,116 +1,165 @@
-<form [formGroup]="form" (ngSubmit)="save($event)">
-    <p>
-        Name:  {{nameField.valid}}
-        <input 
-        [class.is-valid]="isNameFieldValid"
-        [class.is-invalid]="isNameFieldInValid"
-        type="text" 
-        formControlName="name"/>
+
+<div class="container-form">
+    <mat-card>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="save($event)">
+                <div class="container-formGroup"formGroupName="fullname">
+                    <div class="flexColumnCenter">
+                        <mat-form-field>
+                            <mat-label>Name:</mat-label>
+                            <input matInput [class.is-valid]="isNameFieldValid" [class.is-invalid]="isNameFieldInValid" type="text" formControlName="name"/>
+                            <mat-icon matSuffix *ngIf="isNameFieldValid">done</mat-icon>
+                            <mat-icon matSuffix *ngIf="isNameFieldInValid">close</mat-icon>
+                            <div class="messages" [class.active]="isNameFieldInValid">
+                                <mat-error *ngIf="nameField.touched && nameField.hasError('required')">
+                                    Este campo es requerido
+                                </mat-error>
+                                <mat-error *ngIf="nameField.hasError('maxlength')">
+                                    Este campo debe tener maximo 10 caracteres
+                                </mat-error>
+                                <mat-error *ngIf="nameField.hasError('pattern')">
+                                    No debe tener caracteres
+                                </mat-error>
+                            </div>
+                        </mat-form-field>
+                        <button   mat-raised-button color="primary" [disabled]="nameField.invalid" (click)="getNameValue()">Get value</button>
+                    </div>
+                    <div class="flexColumnCenter">
+                        <mat-form-field>
+                            <mat-label>Lastname:</mat-label>
+                            <input matInput [class.is-valid]="isLastFieldValid" [class.is-invalid]="isLastFieldInValid" type="text" formControlName="last"/>
+                            <mat-icon matSuffix *ngIf="isLastFieldValid">done</mat-icon>
+                            <mat-icon matSuffix *ngIf="isLastFieldInValid">close</mat-icon>
+                            <div class="messages" [class.active]="isLastFieldInValid">
+                                <mat-error *ngIf="lastField.touched && lastField.hasError('required')">
+                                    Este campo es requerido
+                                </mat-error>
+                                <mat-error *ngIf="lastField.hasError('maxlength')">
+                                    Este campo debe tener maximo 10 caracteres
+                                </mat-error>
+                                <mat-error *ngIf="lastField.hasError('pattern')">
+                                    No debe tener caracteres
+                                </mat-error>
+                            </div>
+                        </mat-form-field>
+                        <button   mat-raised-button color="primary" [disabled]="lastField.invalid" (click)="getLastNameValue()">Get value</button>
+                    </div>
+                       
+                        <!-- imprimir para ver informacion -->
+                        <!-- <code>
+                            <pre>
+                              {{nameField | json}}
+                            </pre>
+                        </code> -->
+                </div>
+               
+                <p>
+                    Email:{{emailField.value}}
+                    <input type="email" formControlName="email">
+                </p>
+                <div class="messages" [class.active]="emailField.touched && emailField.invalid">
+                    <p>
+                        <strong *ngIf="emailField.touched && emailField.hasError('required')">Este campo es requerido</strong>
+                    </p>
+                    <p>
+                        <strong *ngIf="emailField.hasError('email')">Esto no es un email valido</strong>
+                    </p>
+                </div>
+            
+                <p>
+                    Phone:{{phoneField.value}}
+                    <input type="tel" formControlName="phone">
+                </p>
+              
+                <div class="messages" [class.active]="phoneField.touched && phoneField.invalid">
+                    <p>
+                        <strong *ngIf="phoneField.touched && phoneField.hasError('required')">Este campo es requerido</strong>
+                    </p>
+                </div>
+                <p>
+                    Color:{{colorField.value}}
+                    <input type="color" formControlName="color">
+                </p>
+                <p>
+                    Date:{{dateField.value}}
+                    <input type="date" formControlName="date">
+                </p>
+                <p>
+                    ageField:{{ageField.value}}
+                    <input type="number" formControlName="age">
+                </p>
+                <div class="messages" [class.active]="ageField.touched && ageField.invalid">
+                    <p>
+                        <strong *ngIf="ageField.hasError('required')">Este campo es requerido</strong>
+                    </p>
+            
+                    <p>
+                        <strong *ngIf="ageField.hasError('min')">Debe ser mayor de edad</strong>
+                    </p>
+                    <p>
+                        <strong *ngIf="ageField.hasError('max')">Debe ser menor de 100 años</strong>
+                    </p>
+                </div>
+                <p>
+                    catefory{{categoryField.value}}
+                    <select formControlName="category">
+                        <option value="category-1">Category 1</option>
+                        <option value="category-2">Category 2</option>    
+                        <option value="category-3">Category 3</option>
+                        <option value="category-4">Category 4</option>    
+                    </select>
+                </p>
+                
+                <p>
+                    Tags:{{tagField.value}}
+                    <select  formControlName="tag" multiple>
+                        <option value="tag-1">tag 1</option>
+                        <option value="tag-2">tag 2</option>    
+                        <option value="tag-3">tag 3</option>
+                        <option value="tag-4">tag 4</option>
+                    </select>
+                </p>
+                <p>
+                    Agree:{{agreeField.value}}
+                    <input type="checkbox" formControlName="agree">
+                </p>
+                <p>
+                    Gender:{{genderField.value}}
+                    <label for="">
+                        <input name="gender" type="radio" value="male" formControlName="gender">
+                        Male
+                    </label>
+                    <label for="">
+                        <input name="gender" type="radio" value="female" formControlName="gender">
+                        Female
+                    </label>
+                    <label for="">
+                        <input name="gender" type="radio" value="other" formControlName="gender">
+                        Other
+                    </label>
+                </p>
+                <p>
+                    zone:{{zoneField.value}}
+                    <label for="">
+                        <input name="zone" type="radio" value="zone-1" formControlName="zone">
+                        zona 1
+                    </label>
+                    <label for="">
+                        <input name="zone" type="radio" value="zone-2" formControlName="zone">
+                        zona 2
+                    </label>
+                    <label for="">
+                        <input name="zone" type="radio" value="zone-3" formControlName="zone">
+                        zona 3 
+                    </label>
+                </p>
+                <p>
+                    <!-- <button [disabled]="form.invalid" type="submit">Enviar</button> -->
+                    <button  type="submit">Enviar</button>
+            
+                </p>
+            </form>        
+        </mat-card-content>
+      </mat-card>
     
-        <!-- imprimir para ver informacion -->
-        <!-- <code>
-            <pre>
-              {{nameField | json}}
-            </pre>
-        </code> -->
-        <button [disabled]="nameField.invalid" (click)="getNameValue()">Get value</button>
-    </p>
-
-<div class="messages" [class.active]="isNameFieldInValid">
-    <p>
-        <strong *ngIf="nameField.touched && nameField.hasError('required')">Este campo es requerido</strong>
-    </p>
-    
-    <p>
-        <strong *ngIf="nameField.touched && nameField.hasError('maxlength')">Este campo debe tener maximo 10 caracteres</strong>
-    </p>
-    </div>
-    <p>
-        Email:{{emailField.value}}
-        <input type="email" formControlName="email">
-    </p>
-
-    <p>
-        Phone:{{phoneField.value}}
-        <input type="tel" formControlName="phone">
-    </p>
-  
-    <div class="messages" [class.active]="phoneField.touched && phoneField.invalid">
-        <p>
-            <strong *ngIf="phoneField.touched && phoneField.hasError('required')">Este campo es requerido</strong>
-        </p>
-    </div>
-    <p>
-        Color:{{colorField.value}}
-        <input type="color" formControlName="color">
-    </p>
-    <p>
-        Date:{{dateField.value}}
-        <input type="date" formControlName="date">
-    </p>
-    <p>
-        Number:{{numberField.value}}
-        <input type="number" formControlName="number">
-    </p>
-    
-    <p>
-        catefory{{categoryField.value}}
-        <select formControlName="category">
-            <option value="category-1">Category 1</option>
-            <option value="category-2">Category 2</option>    
-            <option value="category-3">Category 3</option>
-            <option value="category-4">Category 4</option>    
-        </select>
-    </p>
-    
-    <p>
-        Tags:{{tagField.value}}
-        <select  formControlName="tag" multiple>
-            <option value="tag-1">tag 1</option>
-            <option value="tag-2">tag 2</option>    
-            <option value="tag-3">tag 3</option>
-            <option value="tag-4">tag 4</option>
-        </select>
-    </p>
-    <p>
-        Agree:{{agreeField.value}}
-        <input type="checkbox" formControlName="agree">
-    </p>
-    <p>
-        Gender:{{genderField.value}}
-        <label for="">
-            <input name="gender" type="radio" value="male" formControlName="gender">
-            Male
-        </label>
-        <label for="">
-            <input name="gender" type="radio" value="female" formControlName="gender">
-            Female
-        </label>
-        <label for="">
-            <input name="gender" type="radio" value="other" formControlName="gender">
-            Other
-        </label>
-    </p>
-    <p>
-        zone:{{zoneField.value}}
-        <label for="">
-            <input name="zone" type="radio" value="zone-1" formControlName="zone">
-            zona 1
-        </label>
-        <label for="">
-            <input name="zone" type="radio" value="zone-2" formControlName="zone">
-            zona 2
-        </label>
-        <label for="">
-            <input name="zone" type="radio" value="zone-3" formControlName="zone">
-            zona 3 
-        </label>
-    </p>
-    <p>
-        <!-- <button [disabled]="form.invalid" type="submit">Enviar</button> -->
-        <button  type="submit">Enviar</button>
-
-    </p>
-</form>
-
-
+</div>
