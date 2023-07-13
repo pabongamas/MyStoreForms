@@ -126,5 +126,11 @@ export class BasicFormComponent implements OnInit{
   get isLastFieldInValid(){
     return this.lastField.touched && this.lastField.invalid;
   }
-  
+  get isEmailFieldValid(){
+    return this.emailField.touched && this.emailField.valid;
+  }
+
+  get isEmailFieldInValid(){
+    return this.emailField.touched && this.emailField.invalid;
+  }
 }
