@@ -61,7 +61,7 @@ export class BasicFormComponent implements OnInit{
         name:['',[Validators.required,Validators.maxLength(10),Validators.pattern(/^[a-zA-Z ]+$/)]],
         last:['',[Validators.required,Validators.maxLength(10),Validators.pattern(/^[a-zA-Z ]+$/)]]
       }),
-      email:['',[Validators.required,Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       phone:['',Validators.required],
       color:['#213b87'],
       date:[''],
