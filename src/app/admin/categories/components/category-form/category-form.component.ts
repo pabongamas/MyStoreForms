@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage, ref, uploadBytes, listAll, getDownloadURL, StorageReference } from '@angular/fire/storage';
 
 import {FormControl,Validators,FormBuilder, FormGroup} from '@angular/forms'
 
@@ -16,7 +17,8 @@ export class CategoryFormComponent implements OnInit {
   constructor(
     private formBuilder:FormBuilder,
     private categoriesService:CategoriesService,
-    private router:Router
+    private router:Router,
+    private storage: Storage
   ) { 
     this.buildForm();
   }
@@ -51,5 +53,36 @@ export class CategoryFormComponent implements OnInit {
       this.router.navigate(['./admin/categories']);
     });
   }
+
+  uploadFile(event){
+    const image=event.target.files[0];
+    const name = image.name;
+    const imgRef = ref(this.storage,`imagenes/${name}`)
+    const task = uploadBytes(imgRef,image);
+
+    task
+      .then(response => {
+        console.log(response);
+        this.getImage(name)
+      })
+      .catch(error => console.log(error))
+  }
+
+
+  getImage(nameImage:string) {
+    const imgRef = ref(this.storage, 'imagenes')
+    listAll(imgRef)
+      .then( async rta => {
+
+        const itemActual: StorageReference|undefined = rta.items.find(item => item.name === nameImage);
+
+        if(itemActual){
+          const url = await getDownloadURL(itemActual)
+          this.imageField?.setValue(url);
+          console.log(url);
+        }
+
+      })
+    }
 
 }
