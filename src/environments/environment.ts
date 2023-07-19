@@ -12,7 +12,7 @@ export const environment = {
     messagingSenderId: '867128090595',
   },
   production: false,
-  url_api: 'https://store.nicobytes.site/api',
+  url_api: 'https://api.escuelajs.co/api/v1',
   // firebase: {
   //   projectId: 'yarnstore-3c33f',
   //   appId: '1:867128090595:web:964447a0696ef539494ad6',
