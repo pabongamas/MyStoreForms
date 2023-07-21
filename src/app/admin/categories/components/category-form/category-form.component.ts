@@ -28,11 +28,16 @@ export class CategoryFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params:Params)=>{
       this.categoryId=params.id;
+      if(this.categoryId){
+        this.getCategory();
+      }
     });
   }
   private buildForm(){
+    //se comenta validacion para ver si esta disponible ,porque el endpoint a donde apunta este para validar la categoria no existe con la api escuela js
     this.form=this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(4)], MyValidators.validateCategory(this.categoriesService)],
+      name: ['', [Validators.required, Validators.minLength(4)]],
+      // name: ['', [Validators.required, Validators.minLength(4)], MyValidators.validateCategory(this.categoriesService)],
       image:['',Validators.required]
     })
   }
@@ -44,7 +49,11 @@ export class CategoryFormComponent implements OnInit {
   }
   save(){
     if(this.form.valid){
-      this.CreateCategory();
+      if(this.categoryId){
+        this.updateCategory();
+      }else{
+        this.CreateCategory();
+      }
     }else{
       this.form.markAllAsTouched();
     }
@@ -54,11 +63,24 @@ export class CategoryFormComponent implements OnInit {
     const data=this.form.value;
     this.categoriesService.createCategory(data)
     .subscribe(rta=>{
-      console.log(rta);
+      this.router.navigate(['./admin/categories']);
+    });
+  }
+  private updateCategory(){
+    const data=this.form.value;
+    this.categoriesService.updateCategory(this.categoryId,data)
+    .subscribe(rta=>{
       this.router.navigate(['./admin/categories']);
     });
   }
   private getCategory(){
+    this.categoriesService.getCategory(this.categoryId)
+    .subscribe(data=>{
+      // puede ser asi
+      this.form.patchValue(data);
+      // o aasi
+      // this.nameField.setValue(data.data);
+    });
   }
 
   uploadFile(event){

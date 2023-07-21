@@ -36,7 +36,12 @@
           </div>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button type="submit">Guardar categoría</button>
+        <button mat-raised-button  color="primary"  type="submit">
+          <span *ngIf="!categoryId;else blockedit">Crear categoria</span>
+          <ng-template #blockedit>
+            <span>Editar Categoria</span>
+          </ng-template>
+        </button>
       </mat-card-actions>
     </mat-card>
   
