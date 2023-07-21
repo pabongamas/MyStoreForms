@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute,Params } from '@angular/router';
 import { Storage, ref, uploadBytes, listAll, getDownloadURL, StorageReference } from '@angular/fire/storage';
 import {MyValidators} from './../../../../utils/validators'
 import {FormControl,Validators,FormBuilder, FormGroup} from '@angular/forms'
@@ -13,17 +13,22 @@ import {CategoriesService} from './../../../../core/services/categories.service'
 export class CategoryFormComponent implements OnInit {
 
   form:FormGroup;
+  categoryId:string;
 
   constructor(
     private formBuilder:FormBuilder,
     private categoriesService:CategoriesService,
     private router:Router,
-    private storage: Storage
+    private storage: Storage,
+    private activatedRoute:ActivatedRoute,
   ) { 
     this.buildForm();
   }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params:Params)=>{
+      this.categoryId=params.id;
+    });
   }
   private buildForm(){
     this.form=this.formBuilder.group({
@@ -52,6 +57,8 @@ export class CategoryFormComponent implements OnInit {
       console.log(rta);
       this.router.navigate(['./admin/categories']);
     });
+  }
+  private getCategory(){
   }
 
   uploadFile(event){
