@@ -22,5 +22,7 @@ export class CategoriesService {
   updateCategory(id:string,data:Partial<Category>){
     return this.http.put<Category>(environment.url_api+"/categories/"+id,data);
   }
-  
+  checkCategory(name:String){
+    return this.http.post(environment.url_api+"/categories/availability",{name});
+  }
 }

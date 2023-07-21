@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage, ref, uploadBytes, listAll, getDownloadURL, StorageReference } from '@angular/fire/storage';
-
+import {MyValidators} from './../../../../utils/validators'
 import {FormControl,Validators,FormBuilder, FormGroup} from '@angular/forms'
 
 import {CategoriesService} from './../../../../core/services/categories.service'
@@ -27,7 +27,7 @@ export class CategoryFormComponent implements OnInit {
   }
   private buildForm(){
     this.form=this.formBuilder.group({
-      name:['',Validators.required],
+      name: ['', [Validators.required, Validators.minLength(4)], MyValidators.validateCategory(this.categoriesService)],
       image:['',Validators.required]
     })
   }
@@ -62,7 +62,6 @@ export class CategoryFormComponent implements OnInit {
 
     task
       .then(response => {
-        console.log(response);
         this.getImage(name)
       })
       .catch(error => console.log(error))
@@ -73,13 +72,10 @@ export class CategoryFormComponent implements OnInit {
     const imgRef = ref(this.storage, 'imagenes')
     listAll(imgRef)
       .then( async rta => {
-
         const itemActual: StorageReference|undefined = rta.items.find(item => item.name === nameImage);
-
         if(itemActual){
           const url = await getDownloadURL(itemActual)
-          this.imageField?.setValue(url);
-          console.log(url);
+          this.imageField.setValue(url);
         }
 
       })

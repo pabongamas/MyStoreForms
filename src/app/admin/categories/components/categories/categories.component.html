@@ -22,8 +22,10 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let categorie">
+            <div class="flexAlignCenter gapGrid">
             <a mat-raised-button [routerLink]="['edit', categorie.id]">Editar</a>
-            <!-- <button mat-raised-button color="warn" (click)="deleteProduct(product.id)">Eliminar</button> -->
+            <button mat-raised-button color="warn" (click)="deleteCategory(categorie.id)">Eliminar</button>
+            </div>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

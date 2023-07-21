@@ -4,3 +4,11 @@
 .marginButtonCreate{
     margin: 15px 0px 15px;
 }
+.flexAlignCenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gapGrid{
+    grid-gap: 1rem;
+}
