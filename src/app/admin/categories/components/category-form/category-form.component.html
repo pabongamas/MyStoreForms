@@ -37,7 +37,7 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button  color="primary"  type="submit">
-          <span *ngIf="!categoryId;else blockedit">Crear categoria</span>
+          <span *ngIf="isNew;else blockedit">Crear categoria</span>
           <ng-template #blockedit>
             <span>Editar Categoria</span>
           </ng-template>

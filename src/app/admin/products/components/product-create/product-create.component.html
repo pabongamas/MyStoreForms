@@ -7,39 +7,80 @@
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Id" formControlName="id" matInput type="text">
+            <input placeholder="Nombre" formControlName="title" matInput type="text">
+            <div class="messages" *ngIf="titleField.touched && titleField.invalid">
+              <mat-error *ngIf="titleField.hasError('required')">
+                Este campo es requerido
+              </mat-error>
+              <mat-error *ngIf="titleField.hasError('minlength')">
+                Minimo debe tener 4 caracteres
+              </mat-error>
+            </div>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Title" formControlName="title" matInput type="text">
+            <input placeholder="Precio" formControlName="price" matInput type="number">
+            <div class="messages" *ngIf="priceField.errors && priceField.dirty">
+              <mat-error *ngIf="priceField.hasError('price_invalid')">
+                El precio no  debe pasar de 10000
+              </mat-error>
+              <mat-error *ngIf="priceField.hasError('required')">
+               El precio es requerido
+              </mat-error>
+            </div>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Price" formControlName="price" matInput type="number">
+            <textarea placeholder="Descripcion" formControlName="description" matInput></textarea>
+            <div class="messages" *ngIf="descriptionField.touched && descriptionField.invalid">
+              <mat-error *ngIf="descriptionField.hasError('required')">
+                Este campo es requerido
+              </mat-error>
+              <mat-error *ngIf="descriptionField.hasError('minlength')">
+                Minimo debe tener 10 caracteres la descripcion
+              </mat-error>
+            </div>
           </mat-form-field>
-          <div *ngIf="priceField.errors && priceField.dirty">
-            <p *ngIf="priceField.hasError('price_invalid')">no te debes pasar de 10000</p>
-            <p *ngIf="priceField.hasError('required')">el campo es requerido</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <ng-container *ngIf="imageField.value">
+            <div class="contenedor-principal ">
+              <div class="imagen-container" *ngFor='let image of imageField.value'>
+                <img [src]="image" alt="">
+              </div>
+            </div>
+          </ng-container>
+          
+          <!-- <img *ngIf="(image$ | async) as image" [src]="image" alt=""> -->
+          <input multiple type="file" (change)="uploadFile($event)">
+          <div class="messages" *ngIf="imageField.touched && imageField.invalid">
+            <mat-error *ngIf="imageField.hasError('required')">
+              La imagen es requerida
+            </mat-error>   
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <textarea placeholder="Text" formControlName="description" matInput></textarea>
+            <input placeholder="Categoria" formControlName="categoryId" matInput type="text">
+            <!-- <div class="messages" *ngIf="descriptionField.touched && descriptionField.invalid">
+              <mat-error *ngIf="descriptionField.hasError('required')">
+                Este campo es requerido
+              </mat-error>
+              <mat-error *ngIf="descriptionField.hasError('minlength')">
+                Minimo debe tener 10 caracteres la descripcion
+              </mat-error>
+            </div> -->
           </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs">
-          <img *ngIf="(image$ | async) as image" [src]="image" alt="">
-          <input type="file" (change)="uploadFile($event)">
         </div>
       </div>
     </mat-card-content>

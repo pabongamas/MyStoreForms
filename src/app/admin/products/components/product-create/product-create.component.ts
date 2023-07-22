@@ -45,36 +45,47 @@ export class ProductCreateComponent implements OnInit {
   }
 
   uploadFile(event) {
-    const file = event.target.files[0];
-    const name = 'image.png';
-    const fileRef = this.storage.ref(name);
-    const task = this.storage.upload(name, file);
-
-    task.snapshotChanges()
-    .pipe(
-      finalize(() => {
-        this.image$ = fileRef.getDownloadURL();
-        this.image$.subscribe(url => {
-          console.log(url);
-          this.form.get('image').setValue(url);
-        });
-      })
-    )
-    .subscribe();
+    const files = event.target.files;
+  
+    const currentValue = this.form.get('images').value || [];
+    for (let file of files){
+      const name = file.name;
+      const fileRef = this.storage.ref(name);
+      const task = this.storage.upload(name, file);
+         task.snapshotChanges()
+        .pipe(
+            finalize(() => {
+            this.image$ = fileRef.getDownloadURL();
+            this.image$.subscribe((url) => {
+            currentValue.push(url)
+            this.form.patchValue({ images: currentValue });
+            });
+          })
+      )
+      .subscribe();
+    }   
   }
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required]],
-      title: ['', [Validators.required]],
+      title: ['', [Validators.required,Validators.minLength(4)]],
       price: ['', [Validators.required, MyValidators.isPriceValid]],
-      image: [''],
-      description: ['', [Validators.required]],
+      images: [null, [Validators.required]],
+      categoryId:['',Validators.required],
+      description: ['', [Validators.required,Validators.minLength(10)]],
     });
   }
 
   get priceField() {
     return this.form.get('price');
   }
-
+  get titleField(){
+    return this.form.get('title');
+  }
+  get descriptionField(){
+    return this.form.get('description');
+  }
+  get imageField(){
+    return this.form.get('images');
+  }
 }

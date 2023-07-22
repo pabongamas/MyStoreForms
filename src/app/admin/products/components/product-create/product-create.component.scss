@@ -5,3 +5,26 @@ form{
     width: 100%;
   }
 }
+.contenedor-principal {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Crea 4 columnas iguales */
+  grid-gap: 10px; /* Espacio entre las imágenes, puedes ajustarlo según tu preferencia */
+  width: 100%; /* Ajusta el ancho del contenedor principal según tus necesidades */
+}
+
+/* Estilos de los contenedores de las imágenes */
+.imagen-container {
+  width: 100%; /* Asegura que cada imagen ocupe todo el ancho del contenedor */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total del elemento */
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #e0e0e0;
+  display: flex;
+}
+
+/* Estilos de las imágenes */
+.imagen-container img {
+  max-width: 100%;
+  height: auto; /* Esto permite que la imagen conserve su proporción */
+}

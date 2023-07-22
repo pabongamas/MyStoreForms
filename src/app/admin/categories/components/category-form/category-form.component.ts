@@ -1,37 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import { Storage, ref, uploadBytes, listAll, getDownloadURL, StorageReference } from '@angular/fire/storage';
 import {MyValidators} from './../../../../utils/validators'
-import {FormControl,Validators,FormBuilder, FormGroup} from '@angular/forms'
-
-import {CategoriesService} from './../../../../core/services/categories.service'
+import {FormControl,Validators,FormBuilder, FormGroup} from '@angular/forms';
+import {Category} from './../../../../core/models/category.model'
+import {CategoriesService} from './../../../../core/services/categories.service';
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss']
 })
 export class CategoryFormComponent implements OnInit {
-
+  isNew=true;
   form:FormGroup;
+  @Input()
+  set category(data:Category){
+    if(data){
+      this.isNew=false;
+      this.form.patchValue(data);
+    }
+  }
+  @Output() create=new EventEmitter();
+  @Output() update=new EventEmitter();
   categoryId:string;
 
   constructor(
     private formBuilder:FormBuilder,
-    private categoriesService:CategoriesService,
-    private router:Router,
     private storage: Storage,
-    private activatedRoute:ActivatedRoute,
   ) { 
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params:Params)=>{
-      this.categoryId=params.id;
-      if(this.categoryId){
-        this.getCategory();
-      }
-    });
   }
   private buildForm(){
     //se comenta validacion para ver si esta disponible ,porque el endpoint a donde apunta este para validar la categoria no existe con la api escuela js
@@ -49,39 +49,18 @@ export class CategoryFormComponent implements OnInit {
   }
   save(){
     if(this.form.valid){
-      if(this.categoryId){
-        this.updateCategory();
+      if(this.isNew){
+        this.create.emit(this.form.value);
+        // this.CreateCategory();
       }else{
-        this.CreateCategory();
+        this.update.emit(this.form.value);
+        // this.updateCategory();
       }
     }else{
       this.form.markAllAsTouched();
     }
   }
 
-  private CreateCategory(){
-    const data=this.form.value;
-    this.categoriesService.createCategory(data)
-    .subscribe(rta=>{
-      this.router.navigate(['./admin/categories']);
-    });
-  }
-  private updateCategory(){
-    const data=this.form.value;
-    this.categoriesService.updateCategory(this.categoryId,data)
-    .subscribe(rta=>{
-      this.router.navigate(['./admin/categories']);
-    });
-  }
-  private getCategory(){
-    this.categoriesService.getCategory(this.categoryId)
-    .subscribe(data=>{
-      // puede ser asi
-      this.form.patchValue(data);
-      // o aasi
-      // this.nameField.setValue(data.data);
-    });
-  }
 
   uploadFile(event){
     const image=event.target.files[0];
