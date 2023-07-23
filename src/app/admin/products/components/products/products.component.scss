@@ -1,4 +1,10 @@
-.products-table{
-  width: 96%;
-  margin: 2%;
+.flex{
+  display: flex;
+}
+.flex-col{
+  flex-direction: column;
+}
+.containerTableProducts{
+  max-height: calc(100vh - 180px);
+    overflow: auto;
 }

@@ -4,6 +4,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { MyValidators } from './../../../../utils/validators';
 import { ProductsService } from './../../../../core/services/products/products.service';
+import { CategoriesService } from './../../../../core/services/categories.service';
+import {Category} from './../../../../core/models/category.model'
+
 
 @Component({
   selector: 'app-product-edit',
@@ -14,12 +17,14 @@ export class ProductEditComponent implements OnInit {
 
   form: UntypedFormGroup;
   id: string;
+  categories:Category[]=[];
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private productsService: ProductsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private categoriesService:CategoriesService
   ) {
     this.buildForm();
   }
@@ -29,9 +34,13 @@ export class ProductEditComponent implements OnInit {
       this.id = params.id;
       this.productsService.getProduct(this.id)
       .subscribe(product => {
+        console.log(product.name);
         this.form.patchValue(product);
+        //esto lo hago por que el value que me retorna es diferente del backend al cual tengo en mi form
+        this.form.patchValue({'categoryId':product.category.id});
       });
     });
+    this.getCategories();
   }
 
   saveProduct(event: Event) {
@@ -48,16 +57,22 @@ export class ProductEditComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required]],
-      title: ['', [Validators.required]],
+      title: ['', [Validators.required,Validators.minLength(4)]],
       price: ['', [Validators.required, MyValidators.isPriceValid]],
-      image: [''],
-      description: ['', [Validators.required]],
+      images: [null, [Validators.required]],
+      categoryId:['',Validators.required],
+      description: ['', [Validators.required,Validators.minLength(10)]],
     });
   }
 
   get priceField() {
     return this.form.get('price');
+  }
+  private getCategories(){
+    this.categoriesService.getAllCategories()
+    .subscribe((categories)=>{
+      this.categories=categories;
+    })
   }
 
 }

@@ -71,7 +71,9 @@
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Categoria" formControlName="categoryId" matInput type="text">
+            <mat-select placeholder="Seleccion la categoria" formControlName="categoryId" >
+              <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+            </mat-select>
             <!-- <div class="messages" *ngIf="descriptionField.touched && descriptionField.invalid">
               <mat-error *ngIf="descriptionField.hasError('required')">
                 Este campo es requerido
