@@ -18,6 +18,13 @@ export class ProductEditComponent implements OnInit {
   form: UntypedFormGroup;
   id: string;
   categories:Category[]=[];
+  states=[
+    {name:'arizaona',abbrev:'AZ'},
+    {name:'california',abbrev:'CA'},
+    {name:'colorado',abbrev:'CO'},
+    {name:'newroyk',abbrev:'NY'},
+    {name:'pnnysilvania',abbrev:'PA'}
+  ];
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -37,7 +44,7 @@ export class ProductEditComponent implements OnInit {
         console.log(product.name);
         this.form.patchValue(product);
         //esto lo hago por que el value que me retorna es diferente del backend al cual tengo en mi form
-        this.form.patchValue({'categoryId':product.category.id});
+        this.form.patchValue({'categoryId':product.category.id,state:this.states[2]});
       });
     });
     this.getCategories();
@@ -47,11 +54,11 @@ export class ProductEditComponent implements OnInit {
     event.preventDefault();
     if (this.form.valid) {
       const product = this.form.value;
-      this.productsService.updateProduct(this.id, product)
-      .subscribe((newProduct) => {
-        console.log(newProduct);
-        this.router.navigate(['./admin/products']);
-      });
+      console.log(product);
+      // this.productsService.updateProduct(this.id, product)
+      // .subscribe((newProduct) => {
+      //   this.router.navigate(['./admin/products']);
+      // });
     }
   }
 
@@ -62,6 +69,7 @@ export class ProductEditComponent implements OnInit {
       images: [null, [Validators.required]],
       categoryId:['',Validators.required],
       description: ['', [Validators.required,Validators.minLength(10)]],
+      state:['',[Validators.required]]
     });
   }
 
